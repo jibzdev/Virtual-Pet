@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Pet list</title>
+<ul id = "petlist">
+
+</ul>
+
+
+<script type="module">
+    const response = await fetch('/pets');
+    const pets = await response.json();
+    //console.log(pets);
+    for (const pet of pets) {
+        const li = document.createElement('li');
+        li.textContent = pet.petName + " ";
+        const a = document.createElement('a');
+        a.textContent = '[load this pet]';
+        a.href=`pet.html?petid=${pet.petId}`;
+        li.appendChild(a);
+        window.petlist.append(li);
+    }
+</script>

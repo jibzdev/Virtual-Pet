@@ -1,0 +1,19 @@
+<!doctype html>
+<title>Pet Viewer</title>
+<h1>Pet Details</h1>
+<ul id ="petdetails"></ul>
+
+<script type="module">
+    const params = new URLSearchParams(document.location.search);
+    const id = params.get("petid");
+    const response = await fetch(`pets/${id}`);
+    const petdetails = await response.json();
+
+    console.log(petdetails);
+
+    for (const detail of Object.entries(petdetails)) {
+        const li = document.createElement('li');
+        li.textContent = detail;
+        window.petdetails.append(li);
+    }
+</script>
