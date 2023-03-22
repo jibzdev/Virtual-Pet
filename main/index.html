@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--End of Meta Tags-->
+
+    <!-- Link Tags-->
+    <link rel="stylesheet" href="style.css">
+    <!--End of Link Tags-->
+
+    <!--End of Title-->
+    <title>RPet - Your Virtual Pet</title>
+    <!--Title-->
+
+    <script src="main.js" type="module"></script>
+</head>
+<body>
+    <!-- Main -->
+    <main>
+        <div id="center">
+            <p id="welcomeMessage">This is a new Pet</p>
+            <p>Enter Pet name</p>
+            <p id="petNameEntered"></p>
+            <br>
+            <input type="text" id="petName" name="pName">
+            <button id="NameforPet">Create</button>
+            <br>
+        </div>
+
+        <h1 id="EndGame"></h1>
+
+        <div class="petButtons">
+        <button id="givefood">Give Food (+1)</button>
+        <button id="giveClean">Clean</button>
+        <button id="giveSleep">Sleep</button>
+        </div>
+
+
+        <div id="petStats">
+            <p id="petHeader">- STATS -<br></p>
+            <p id="Hunger"></p>
+            <p id="Health"></p>
+            <p id="Cleanliness"></p>
+            <p id="Sleep"></p>
+            <p id="warn" style="color: red;"></p>
+        </div>
+
+        <button id="saveGame">Save</button>
+
+    </main>
+    <!-- End of Main -->
+    <div id="allPets">
+    </div>
+</body>
+</html>
