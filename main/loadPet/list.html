@@ -14,7 +14,7 @@
         li.textContent = pet.petName + " ";
         const a = document.createElement('a');
         a.textContent = '[load this pet]';
-        a.href=`pet.html?petid=${pet.petId}`;
+        a.href=`pet.html?ID=${pet.petId}`;
         li.appendChild(a);
         window.petlist.append(li);
     }

@@ -12,47 +12,21 @@
     <!--End of Link Tags-->
 
     <!--End of Title-->
-    <title>RPet - Your Virtual Pet</title>
+    <title>Your Virtual Pet</title>
     <!--Title-->
 
-    <script src="main.js" type="module"></script>
+    <script src="index.js" type="module"></script>
 </head>
 <body>
     <!-- Main -->
     <main>
-        <div id="center">
-            <p id="welcomeMessage">This is a new Pet</p>
-            <p>Enter Pet name</p>
-            <p id="petNameEntered"></p>
-            <br>
-            <input type="text" id="petName" name="pName">
-            <button id="NameforPet">Create</button>
-            <br>
-        </div>
-
-        <h1 id="EndGame"></h1>
-
-        <div class="petButtons">
-        <button id="givefood">Give Food (+1)</button>
-        <button id="giveClean">Clean</button>
-        <button id="giveSleep">Sleep</button>
-        </div>
-
-
-        <div id="petStats">
-            <p id="petHeader">- STATS -<br></p>
-            <p id="Hunger"></p>
-            <p id="Health"></p>
-            <p id="Cleanliness"></p>
-            <p id="Sleep"></p>
-            <p id="warn" style="color: red;"></p>
-        </div>
-
-        <button id="saveGame">Save</button>
+        <section>
+            <h1>Welcome to Virtal Pet</h1>
+            <button class="startMenuButtons" id="newGame">New Game</button>
+            <button class="startMenuButtons" id="loadGame">Load Game</button>
+            <p>v1.0</p>
+        </section>
 
     </main>
-    <!-- End of Main -->
-    <div id="allPets">
-    </div>
 </body>
 </html>
