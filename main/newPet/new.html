@@ -6,36 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="new.css">
+    <script src="new.js" type="module"></script>
 </head>
 <body>
-        <div id="center">
-            <p id="welcomeMessage">This is a new Pet</p>
+    <main>
+        <section id="createPet">
+            <p>This is a new Pet</p>
             <p>Enter Pet name</p>
-            <p id="petNameEntered"></p>
-            <br>
             <input type="text" id="petName" name="pName">
             <button id="NameforPet">Create</button>
-            <br>
-        </div>
-
-        <h1 id="EndGame"></h1>
-
-        <div class="petButtons">
-        <button id="givefood">Give Food (+1)</button>
-        <button id="giveClean">Clean</button>
-        <button id="giveSleep">Sleep</button>
-        </div>
-
-
-        <div id="petStats">
+        </section>
+    
+        <section id="buttons">
+            <button id="givefood">Give Food (+1)</button>
+            <button id="giveClean">Clean</button>
+            <button id="giveSleep">Sleep</button>
+            <button id="saveGame">Save</button>
+        </section>
+    
+        <section id="stats">
             <p id="petHeader">- STATS -<br></p>
             <p id="Hunger"></p>
             <p id="Health"></p>
             <p id="Cleanliness"></p>
             <p id="Sleep"></p>
             <p id="warn" style="color: red;"></p>
-        </div>
+        </section>
+    </main>
 
-        <button id="saveGame">Save</button>
 </body>
 </html>

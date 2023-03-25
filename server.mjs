@@ -8,13 +8,11 @@ app.use(bodyParser.json());
 
 async function getPets(req, res) {
   const pets = await safe.listPets();
-  console.log(pets);
   res.send(pets);
 }
 
 async function getPet(req, res) {
   const pets = await safe.getPet(req.params.id);
-  console.log(pets);
   res.send(pets);
 }
 

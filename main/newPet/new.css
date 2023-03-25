@@ -11,7 +11,9 @@ body{
     margin: 0;
     background-color: #403633;
 }
-#petStats{
+
+
+#stats{
     color: white;
     text-align: center;
     position: absolute;
@@ -21,25 +23,13 @@ body{
     margin: 0 auto;
   }
   
-  .interactPet{
-    color: white;
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -55%);    
-    -webkit-transform: translate(-50%, -55%);
-    -moz-transform: translate(-50%, -55%);
-    -ms-transform: translate(-50%, -55%);
-    -o-transform: translate(-50%, -55%);
-  }
   
   #petNameEntered{
     color: red;
     font-size: 1vw;
   }
   
-  #center {
+  #createPet {
     color: white;
     text-align: center;
     position: absolute;
