@@ -39,7 +39,7 @@ export async function addPet(petData) {
   const id = generateId();
   const time = currentTime();
   console.log("log successful");
-  return db.run('INSERT INTO Petslol (petId, petName, health, hunger, clean, sleep, time) VALUES (?, ?, ?, ?, ?, ?, ?)', [id, petData.name, petData.health, petData.hunger, petData.clean, petData.sleep, time]);
+  return db.run('INSERT INTO Petslol (petId, petName, health, hunger, clean, sleep, color, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, petData.name, petData.health, petData.hunger, petData.clean, petData.sleep, petData.colour, time]);
 
 }
 

@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS Petslol (
     health TEXT, 
     hunger TEXT, 
     clean TEXT, 
-    sleep TEXT, 
+    sleep TEXT,
+    color TEXT,
     time DATETIME
 );

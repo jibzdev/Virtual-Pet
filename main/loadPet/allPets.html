@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<title>Pet list</title>
-<ul id = "petlist">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Document</title>
+    <script src="allPets.js"></script>
+    <link rel="stylesheet" href="allPets.css">
+</head>
+<body>
 
-</ul>
+    <video autoplay muted loop id="bgVideo">
+        <source src="../assets/bg.mp4" type="video/mp4">
+    </video>
 
+    <audio id="my-audio" autoplay loop>
+      <source src="../assets/wait.mp3" type="audio/mp3">
+    </audio>
+    <div class="volume-slider">
+        <i class="fas fa-volume-up"></i>
+        <input type="range" min="0" max="1" step="0.01" value="1" id="volume-range">
+    </div>
 
-<script type="module">
-    const response = await fetch('/pets');
-    const pets = await response.json();
-    for (const pet of pets) {
-        const li = document.createElement('li');
-        li.textContent = pet.petName + " ";
-        const a = document.createElement('a');
-        a.textContent = '[load this pet]';
-        a.href=`pet.html?ID=${pet.petId}`;
-        li.appendChild(a);
-        window.petlist.append(li);
-    }
-</script>
+    <section>
+        <h1>ID <span>Name</span></h1>
+        <ul id="petList">
+
+        </ul>
+    </section>
+</body>
+</html>

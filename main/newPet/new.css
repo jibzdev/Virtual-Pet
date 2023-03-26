@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Lobster");
 ::-webkit-scrollbar{
   display: none;
 }
@@ -10,8 +11,57 @@ body{
     padding: 0;
     margin: 0;
     background-color: #403633;
+    font-family: "Lobster";
 }
 
+p{
+  font-size: 22px;
+}
+.volume-slider {
+  margin-left: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 150px;
+  height: 10px;
+  background-color: rgba(1, 1, 1, 0.7);
+  border-radius: 5px;
+  outline: none;
+  margin-right: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.fa-volume-up, .fa-volume-down, .fa-volume-off {
+  font-size: 32px;
+  color: rgba(1, 1, 1, 0.7);
+}
+
+video
+{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -100;
+	transform: translateX(-50%) translateY(-50%);
+	background-size: cover;
+  filter: blur(5px);
+}
 
 #stats{
     color: white;
@@ -21,6 +71,9 @@ body{
     bottom: 0;
     transform: translate(-50%, -50%);
     margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgba(1, 1, 1, 0.7);
   }
   
   
@@ -42,17 +95,30 @@ body{
       text-align: center;
   }
   
-  button{
-      background-color: #403633;
-      text-decoration: none;
-      color: white;
-      cursor: pointer;
+  button {
+    background-color: rgba(1, 1, 1, 0.7);
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    font-family: "Lobster";
+    font-size: 18px;
+    border-radius: 5px;
+    transition: .5s ease all;
+    cursor: pointer;
+    border: none;
+    outline: none;
   }
-  
-  input{
-      text-decoration: none;
+
+  #createPet input{
+    border: none;
+    outline: none;
       color: white;
-      background-color: #403633;
+      border-radius: 5px;
+      width: 200px;
+      font-size: 22px;
+      height: 40px;
+      text-align: center;
+      background-color: rgba(1, 1, 1, 0.5);
   }
   
   #endGame{

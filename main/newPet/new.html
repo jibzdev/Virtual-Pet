@@ -4,15 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>PLaying :)</title>
     <link rel="stylesheet" href="new.css">
     <script src="new.js" type="module"></script>
 </head>
 <body>
+
+    <video autoplay muted loop id="bgVideo">
+        <source src="../assets/bg.mp4" type="video/mp4">
+    </video>
+
+    <audio id="my-audio" autoplay loop>
+      <source src="../assets/playing.mp3" type="audio/mp3">
+    </audio>
+
     <main>
+        <div class="volume-slider">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" min="0" max="1" step="0.01" value="1" id="volume-range">
+        </div>
         <section id="createPet">
-            <p>This is a new Pet</p>
-            <p>Enter Pet name</p>
+            <p>This is the pet you choose:</p>
+            <p id="chosenPet"></p>
+            <div id="duck1"></div>
+            <p>now name him!</p>
             <input type="text" id="petName" name="pName">
             <button id="NameforPet">Create</button>
         </section>
@@ -25,11 +41,13 @@
         </section>
     
         <section id="stats">
+            <div id="duck2"></div>
             <p id="petHeader">- STATS -<br></p>
             <p id="Hunger"></p>
             <p id="Health"></p>
             <p id="Cleanliness"></p>
             <p id="Sleep"></p>
+            <p id="colour"></p>
             <p id="warn" style="color: red;"></p>
         </section>
     </main>

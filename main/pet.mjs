@@ -1,9 +1,10 @@
 let defaultPet = {
     petName: '',
-    hunger: 6,
+    hunger: 100,
     clean: 100,
     sleep: 100,
-    health: 10,
+    health: 100,
+    petColour: '',
 };
 
 // Name 
@@ -13,6 +14,15 @@ export function getName(){
 
 export function setName(name){
     defaultPet.name = name;
+}
+
+// Colour 
+export function getColour(){
+    return defaultPet.petColour;
+}
+
+export function setColour(colour){
+    defaultPet.petColour = colour;
 }
 
 // Health
