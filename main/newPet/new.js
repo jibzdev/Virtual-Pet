@@ -1,5 +1,27 @@
-import * as pet from '/pet.mjs' ;
-const selectedDuckColor = localStorage.getItem('selectedDuckColor');
+import * as pet from '../assets/petStuff/pet.mjs' ;
+import * as svg from '../assets/petStuff/petSvg.js' ;
+
+let time = Date.now();
+let timeSurvived  = 0;
+
+setInterval(() => {
+  timeSurvived = Math.floor((Date.now() - time) / 1000);
+}, 1000);
+
+function formatTime(time) {
+  let seconds = time;
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+  let days = Math.floor(hours / 24);
+
+  seconds %= 60;
+  minutes %= 60;
+  hours %= 24;
+
+  return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+};
+
+const selectedDuckColor = localStorage.getItem('duckColour');
 const mainSection = document.querySelector("#createPet");
 
 function gettingDuckName(){
@@ -17,43 +39,13 @@ function gettingDuckName(){
 
 function gettingDuckSVG(theDiv){
   if(selectedDuckColor === "yellowDuck"){
-    document.querySelector(theDiv).innerHTML = `
-    <svg width="200" height="250" id="theDuck">
-    <circle cx="100" cy="125" r="50" fill="yellow" />
-    <circle cx="110" cy="80" r="40" fill="yellow"/>
-    <circle id="theDuckEye" cx="130" cy="70" r="10" fill="white" stroke="black" stroke-width="3" />
-    <circle id="theDuckIris" cx="130" cy="70" r="3" fill="black" stroke="black" stroke-width="3" />
-    <line x1="100" y1="175" x2="100" y2="200" stroke="black" stroke-width="4" />
-    <line x1="100" y1="200" x2="125" y2="200" stroke="black" stroke-width="4" />
-    <polygon points="15 5, 25 25, 5 25" style="fill: orange; order: -1;" transform="translate(170,55) rotate(90)"/>
-    </svg>
-    `;
+    document.querySelector(theDiv).append(svg.createDuck("yellowDuck","yellow"));
   }
   else if (selectedDuckColor === "redDuck"){
-    document.querySelector(theDiv).innerHTML = `
-    <svg width="200" height="250" id="theDuck">
-    <circle cx="100" cy="125" r="50" fill="red" />
-    <circle cx="110" cy="80" r="40" fill="red"/>
-    <circle id="theDuckEye" cx="130" cy="70" r="10" fill="white" stroke="black" stroke-width="3" />
-    <circle id="theDuckIris" cx="130" cy="70" r="3" fill="black" stroke="black" stroke-width="3" />
-    <line x1="100" y1="175" x2="100" y2="200" stroke="black" stroke-width="4" />
-    <line x1="100" y1="200" x2="125" y2="200" stroke="black" stroke-width="4" />
-    <polygon points="15 5, 25 25, 5 25" style="fill: orange; order: -1;" transform="translate(170,55) rotate(90)"/>
-    </svg>
-    `;
+    document.querySelector(theDiv).append(svg.createDuck("redDuck","red"));
   }
   else{
-    document.querySelector(theDiv).innerHTML = `
-    <svg width="200" height="250" id="theDuck">
-    <circle cx="100" cy="125" r="50" fill="blue" />
-    <circle cx="110" cy="80" r="40" fill="blue"/>
-    <circle id="theDuckEye" cx="130" cy="70" r="10" fill="white" stroke="black" stroke-width="3" />
-    <circle id="theDuckIris" cx="130" cy="70" r="3" fill="black" stroke="black" stroke-width="3" />
-    <line x1="100" y1="175" x2="100" y2="200" stroke="black" stroke-width="4" />
-    <line x1="100" y1="200" x2="125" y2="200" stroke="black" stroke-width="4" />
-    <polygon points="15 5, 25 25, 5 25" style="fill: orange; order: -1;" transform="translate(170,55) rotate(90)"/>
-    </svg>
-    `;
+    document.querySelector(theDiv).append(svg.createDuck("blueDuck","blue"));
   }
 };
 
@@ -62,9 +54,9 @@ function NameThePet() {
     let Name = document.querySelector("#petName").value;
     pet.setName(Name);
     pet.setColour(selectedDuckColor);
-    document.querySelector("#petHeader").textContent = "Name: " + pet.getName();
+    document.querySelector("#name").textContent = "Name: " + pet.getName();
     document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
-    document.querySelector("#Health").textContent = "Health: " + "%" + pet.getHealth();
+    document.querySelector("#petHealth").textContent = "Health: " + "%" + pet.getHealth();
     document.querySelector("#Sleep").textContent = "Tired: " + pet.getSleep();
     document.querySelector("#Cleanliness").textContent = "Cleanliness: " + pet.getClean();
     document.querySelector("#colour").textContent = "Pet Colour: " + pet.getColour();
@@ -103,13 +95,15 @@ function decHealth() {
     if (hunger <= 10) {
       health--;
       pet.setHealth(health);
-      document.querySelector("#Health").textContent = "Health: " + pet.getHealth();
+      document.querySelector("#petHealth").textContent = "Health: " + pet.getHealth();
+      document.querySelector("#petHealthBar").value = pet.getHealth();
     }
     if(health == 0){
       let endGame = document.createElement('div');
       endGame.setAttribute('id', 'endGame');
       endGame.innerHTML = `
       <h1>GAME OVER PET HAS DIED</h1>
+      <p>Time Survived: ${formatTime(timeSurvived)}</p>
       `;
       clearInterval(decreaseH);
       document.querySelector("main").style.display = "none";
@@ -122,7 +116,8 @@ function decHealth() {
       else{
         health++;
         pet.setHealth(health);
-        document.querySelector("#Health").textContent = "Health: " + pet.getHealth();
+        document.querySelector("#petHealth").textContent = "Health: " + pet.getHealth();
+        document.querySelector("#petHealthBar").value = pet.getHealth();
       }
     }
   }, 1000);
@@ -164,6 +159,7 @@ window.addEventListener('load', () => {
     const buttons = document.querySelector("#buttons");
     buttons.classList.add("hidden");
     stats.classList.add("hidden");
+    document.querySelector("#theGame").classList.add("hidden");
     document.querySelector("#NameforPet").addEventListener("click", () => {
         const existingWarn = document.querySelector("#warn");
         if (existingWarn) {
@@ -180,12 +176,13 @@ window.addEventListener('load', () => {
         buttons.classList.remove("hidden");
         stats.classList.remove("hidden");
         mainSection.classList.add("hidden");
+        document.querySelector("#theGame").classList.remove("hidden");
         NameThePet();
         decHunger();
         decHealth();
         document.querySelector("#givefood").addEventListener("click", () =>{
           let hunger = pet.getHunger();
-          hunger++;
+          hunger += 2;
           pet.setHunger(hunger);
         });
         document.querySelector("#saveGame").addEventListener("click", () =>{
@@ -194,39 +191,43 @@ window.addEventListener('load', () => {
       }
     });
   });
-
-const clickSound = new Audio("../assets/click.wav");
-const audio = document.getElementById('my-audio');
-const volumeRange = document.getElementById("volume-range");
+// Audio Stuff
+const clickSound = new Audio("../assets/music/click.wav");
+const audio = document.querySelector("#my-audio");
+const volumeRange = document.querySelector("#volume-range");
 const volumeIcon = document.querySelector(".fa-volume-up");
 
 function setupButtonEventListeners() {
-  const buttons = document.querySelectorAll("button");
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      clickSound.play();
-    });
-  });
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+button.addEventListener("click", () => {
+clickSound.play();
+});
+});
 }
 
-  window.addEventListener('click', () => {
-    audio.play();
-  });
-  audio.volume = volumeRange.value;
-  volumeRange.addEventListener("input", function() {
-    audio.volume = volumeRange.value;
-    if (audio.volume == 0) {
-      volumeIcon.className = "fas fa-volume-off";
-    } else if (audio.volume <= 0.5) {
-      volumeIcon.className = "fas fa-volume-down";
-    } else {
-      volumeIcon.className = "fas fa-volume-up";
-    }
-  });
-  volumeRange.addEventListener("click", function() {
-    if (volumeRange.value == 0) {
-      audio.muted = true;
-    } else {
-      audio.muted = false;
-    }
-  });
+document.addEventListener("click", (event) => {
+const target = event.target;
+if (target.tagName === "BUTTON") {
+clickSound.play();
+}
+});
+
+// Retrieve the volume value from local storage if it exists
+const storedVolume = localStorage.getItem("volume");
+if (storedVolume !== null) {
+audio.volume = storedVolume;
+volumeRange.value = storedVolume;
+audio.muted = (storedVolume == 0);
+volumeIcon.className = (storedVolume == 0) ? "fas fa-volume-off" : (storedVolume <= 0.5) ? "fas fa-volume-down" : "fas fa-volume-up";
+}
+
+// Update the volume value in local storage when it changes
+volumeRange.addEventListener("input", function() {
+const volume = volumeRange.value;
+audio.volume = volume;
+audio.muted = (volume == 0);
+volumeIcon.className = (volume == 0) ? "fas fa-volume-off" : (volume <= 0.5) ? "fas fa-volume-down" : "fas fa-volume-up";
+localStorage.setItem("volume", volume);
+});
+

@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>PLaying :)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <title>Playing</title>
     <link rel="stylesheet" href="new.css">
     <script src="new.js" type="module"></script>
 </head>
 <body>
 
     <video autoplay muted loop id="bgVideo">
-        <source src="../assets/bg.mp4" type="video/mp4">
+        <source src="../assets/videos/bg.mp4" type="video/mp4">
     </video>
 
     <audio id="my-audio" autoplay loop>
-      <source src="../assets/playing.mp3" type="audio/mp3">
+      <source src="../assets/music/playing.mp3" type="audio/mp3">
     </audio>
 
     <main>
@@ -24,11 +25,12 @@
             <i class="fas fa-volume-up"></i>
             <input type="range" min="0" max="1" step="0.01" value="1" id="volume-range">
         </div>
+
         <section id="createPet">
-            <p>This is the pet you choose:</p>
+            <p>You Chose:</p>
             <p id="chosenPet"></p>
             <div id="duck1"></div>
-            <p>now name him!</p>
+            <p>Now Name Your Duck.</p>
             <input type="text" id="petName" name="pName">
             <button id="NameforPet">Create</button>
         </section>
@@ -39,12 +41,16 @@
             <button id="giveSleep">Sleep</button>
             <button id="saveGame">Save</button>
         </section>
-    
-        <section id="stats">
+
+        <section id="theGame">
+            <p id="name"></p>        
             <div id="duck2"></div>
-            <p id="petHeader">- STATS -<br></p>
+            <p id="petHealth"></p>
+            <p><meter id="petHealthBar" min="0" max="100" value="100"></meter></p>
+        </section>
+
+        <section id="stats">
             <p id="Hunger"></p>
-            <p id="Health"></p>
             <p id="Cleanliness"></p>
             <p id="Sleep"></p>
             <p id="colour"></p>
