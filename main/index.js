@@ -29,7 +29,6 @@ clickSound.play();
 }
 });
 
-// Retrieve the volume value from local storage if it exists
 const storedVolume = localStorage.getItem("volume");
 if (storedVolume !== null) {
 audio.volume = storedVolume;
@@ -38,7 +37,6 @@ audio.muted = (storedVolume == 0);
 volumeIcon.className = (storedVolume == 0) ? "fas fa-volume-off" : (storedVolume <= 0.5) ? "fas fa-volume-down" : "fas fa-volume-up";
 }
 
-// Update the volume value in local storage when it changes
 volumeRange.addEventListener("input", function() {
 const volume = volumeRange.value;
 audio.volume = volume;
@@ -140,4 +138,10 @@ function showChooseSection() {
   window.location.href = "/newPet/new.html";
 });
 });
+
+  divs.forEach((button) => {
+    button.addEventListener("hover", () => {
+    window.location.href = "/newPet/new.html";
+  });
+  });
 };

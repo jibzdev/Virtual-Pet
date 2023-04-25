@@ -1,9 +1,9 @@
 let defaultPet = {
     petName: '',
-    hunger: 10,
+    hunger: 100,
     clean: 100,
     sleep: 100,
-    health: 10,
+    health: 100,
     petColour: '',
 };
 

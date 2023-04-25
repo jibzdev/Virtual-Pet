@@ -57,9 +57,8 @@ function NameThePet() {
     document.querySelector("#name").textContent = "Name: " + pet.getName();
     document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
     document.querySelector("#petHealth").textContent = "Health: " + "%" + pet.getHealth();
-    document.querySelector("#Sleep").textContent = "Tired: " + pet.getSleep();
-    document.querySelector("#Cleanliness").textContent = "Cleanliness: " + pet.getClean();
-    document.querySelector("#colour").textContent = "Pet Colour: " + pet.getColour();
+    document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+    document.querySelector("#petColour").textContent = "Pet Colour: " + pet.getColour();
 };
 
 // decreasing Hunger
@@ -82,11 +81,91 @@ function decHunger() {
       hunger--;
       pet.setHunger(hunger);
       document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
+      document.querySelector("#petHunger").value = pet.getHunger();
     }
     console.log(pet.getName(),pet.getHealth(),pet.getHunger(),pet.getClean(),pet.getSleep());
-  }, 1000);
+  }, 3000);
 };
 
+// Decrease Sleep
+
+let decreasing;
+let increaseSleep;
+
+function updateStatusText(sleep, statusText) {
+  if (sleep >= 80) {
+    statusText.textContent = "Awake";
+    statusText.style.color = "green";
+  } else if (sleep >= 50) {
+    statusText.textContent = "Tired";
+    statusText.style.color = "#FFBF00";
+  } else if (sleep >= 20) {
+    statusText.textContent = "Sleepy";
+    statusText.style.color = "#CC5500";
+  } else if (sleep <= 15) {
+    statusText.textContent = "Need Sleep!";
+    statusText.style.color = "red";
+  }
+}
+
+function decreaseSleepValue() {
+  let sleep = pet.getSleep();
+  let statusText = document.querySelector(".status");
+
+  if (sleep > 0) {
+    sleep--;
+    pet.setSleep(sleep);
+    updateStatusText(sleep, statusText);
+  }
+}
+
+
+function decreaseSleep() {
+  let sleepText = document.querySelector("#sleep");
+  sleepText.textContent = "Sleep Status: ";
+  let statusText = document.createElement("span");
+  statusText.classList.add("status");
+  sleepText.appendChild(statusText);
+  decreasing = setInterval(decreaseSleepValue, 7000);
+
+  let sleepButton = document.querySelector("#giveSleep");
+
+  sleepButton.addEventListener("click", () => {
+    if (increaseSleep) {
+      clearInterval(increaseSleep);
+      increaseSleep = null;
+      decreasing = setInterval(decreaseSleepValue, 7000);
+      sleepButton.textContent = "Sleep";
+    } else {
+      clearInterval(decreasing);
+      statusText.textContent = "Sleeping";
+      statusText.style.color = "black";
+      sleepButton.textContent = "Sleeping...";
+      increaseSleep = setInterval(() => {
+        let sleep = pet.getSleep();
+        sleep++;
+        pet.setSleep(sleep);
+        if (sleep >= 100) {
+          clearInterval(increaseSleep);
+          increaseSleep = null;
+          decreasing = setInterval(decreaseSleepValue, 500);
+          sleepButton.textContent = "Sleep";
+        }
+      }, 7000);
+    }
+  });
+}
+
+function decreaseClean(){
+  let clean = pet.getClean();
+  let decreasing = setInterval(() => {
+    if (clean > 0){
+      clean--;
+      pet.setClean(clean);
+    }
+    clearInterval(decreasing);
+  }, 9000)
+}
 // Decreasing Health
 function decHealth() {
   let decreaseH = setInterval(() => {
@@ -120,7 +199,7 @@ function decHealth() {
         document.querySelector("#petHealthBar").value = pet.getHealth();
       }
     }
-  }, 1000);
+  }, 1500);
 };
 
 
@@ -151,46 +230,51 @@ async function savePet() {
 }
 
 window.addEventListener('load', () => {
-    setupButtonEventListeners()
-    const naming = document.querySelector("#chosenPet");
-    naming.textContent = gettingDuckName();
-    gettingDuckSVG("#duck1");
-    const stats = document.querySelector("#stats");
-    const buttons = document.querySelector("#buttons");
-    buttons.classList.add("hidden");
-    stats.classList.add("hidden");
-    document.querySelector("#theGame").classList.add("hidden");
-    document.querySelector("#NameforPet").addEventListener("click", () => {
-        const existingWarn = document.querySelector("#warn");
-        if (existingWarn) {
-          existingWarn.remove();
-        }
-        if (document.querySelector("#petName").value === "") {
-        const warn = document.createElement("p");
-        warn.setAttribute("id", "warn");
-        warn.textContent = "Invalid Name";
-        warn.style.color = "red";
-        document.querySelector("#createPet").insertAdjacentElement("beforeend", warn);
-        } else {
-        gettingDuckSVG("#duck2");
-        buttons.classList.remove("hidden");
-        stats.classList.remove("hidden");
-        mainSection.classList.add("hidden");
-        document.querySelector("#theGame").classList.remove("hidden");
-        NameThePet();
-        decHunger();
-        decHealth();
-        document.querySelector("#givefood").addEventListener("click", () =>{
-          let hunger = pet.getHunger();
-          hunger += 2;
-          pet.setHunger(hunger);
-        });
-        document.querySelector("#saveGame").addEventListener("click", () =>{
-          savePet();
-        });
-      }
-    });
+  setupButtonEventListeners()
+  const naming = document.querySelector("#chosenPet");
+  naming.textContent = gettingDuckName();
+  gettingDuckSVG("#duck1");
+  const stats = document.querySelector("#stats");
+  const buttons = document.querySelector("#buttons");
+  buttons.classList.add("hidden");
+  stats.classList.add("hidden");
+  document.querySelector("#stats2").classList.add("hidden");
+  document.querySelector("#theGame").classList.add("hidden");
+  document.querySelector("#NameforPet").addEventListener("click", () => {
+  const existingWarn = document.querySelector("#warn");
+  if (existingWarn) {
+    existingWarn.remove();
+  }
+  if (document.querySelector("#petName").value === "") {
+    const warn = document.createElement("p");
+    warn.setAttribute("id", "warn");
+    warn.textContent = "Invalid Name";
+    warn.style.color = "red";
+    document.querySelector("#createPet").insertAdjacentElement("beforeend", warn);
+  } else {
+    gettingDuckSVG("#duck2");
+    buttons.classList.remove("hidden");
+    stats.classList.remove("hidden");
+    document.querySelector("#stats2").classList.remove("hidden");
+    mainSection.classList.add("hidden");
+    document.querySelector("#theGame").classList.remove("hidden");
+    NameThePet();
+    decHunger();
+    decHealth();
+    decreaseSleep();
+    decreaseClean();
+  document.querySelector("#givefood").addEventListener("click", () =>{
+    let hunger = pet.getHunger();
+    hunger += 2;
+    pet.setHunger(hunger);
   });
+  document.querySelector("#saveGame").addEventListener("click", () =>{
+    savePet();
+  });
+}
+});
+});
+
 // Audio Stuff
 const clickSound = new Audio("../assets/music/click.wav");
 const audio = document.querySelector("#my-audio");
@@ -213,7 +297,7 @@ clickSound.play();
 }
 });
 
-// Retrieve the volume value from local storage if it exists
+
 const storedVolume = localStorage.getItem("volume");
 if (storedVolume !== null) {
 audio.volume = storedVolume;
@@ -222,7 +306,7 @@ audio.muted = (storedVolume == 0);
 volumeIcon.className = (storedVolume == 0) ? "fas fa-volume-off" : (storedVolume <= 0.5) ? "fas fa-volume-down" : "fas fa-volume-up";
 }
 
-// Update the volume value in local storage when it changes
+
 volumeRange.addEventListener("input", function() {
 const volume = volumeRange.value;
 audio.volume = volume;

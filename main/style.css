@@ -5,7 +5,7 @@
 :root {
   --background-color: rgba(1, 1, 1, 0.7);
   --font-family: "Lobster";
-  --font-size: 18px;
+  --font-size: 1.8vh;
   --border-radius: 15px;
   --color-white: white;
 }
@@ -23,12 +23,16 @@ body {
   transition: 1s ease all;
 }
 
-section {
+#mainS {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+#newGame{
+  margin-top: 7.6vh;
 }
 
 button {
@@ -51,6 +55,7 @@ button:hover {
 }
 
 #version {
+  font-size: 1.3vh;
   color: var(--color-white);
   padding: 5px;
   position: absolute;
@@ -65,18 +70,20 @@ button:hover {
 section h1,
 section h2 {
   font-family: var(--font-family);
-  font-size: 36px;
-  padding: 30px;
+  font-size: 3vh;
+  padding: 3.0vh;
+  width: 27vh;
   border-radius: var(--border-radius);
   background-color: var(--background-color);
   color: var(--color-white);
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  text-align: center;
 }
 
 section h1 {
-  top: 30%;
+  top: 30vh;
 }
 
 section h2 {
@@ -97,17 +104,17 @@ video {
   background-size: cover;
 }
 
-.volume-slider {
+.volume-slider{
   position: absolute;
-  margin: 10px;
-  display: flex;
-  align-items: center;
+  top: 1%;
+  left: 1%;
+  transform: translate(-1%,-1%);
 }
 
 input[type="range"] {
   -webkit-appearance: none;
-  width: 150px;
-  height: 10px;
+  width: 15vh;
+  height: 1vh;
   background-color: var(--background-color);
   border-radius: var(--border-radius);
   outline: none;
@@ -116,8 +123,8 @@ input[type="range"] {
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 2vh;
+  height: 2vh;
   background-color: var(--color-white);
   border-radius: 50%;
   cursor: pointer;
@@ -126,7 +133,7 @@ input[type="range"]::-webkit-slider-thumb {
 .fa-volume-up,
 .fa-volume-down,
 .fa-volume-off {
-  font-size: 32px;
+  font-size: 3.2vh;
   color: var(--background-color);
 }
 
@@ -134,8 +141,8 @@ input[type="range"]::-webkit-slider-thumb {
   border-radius: var(--border-radius);
   background-color: var(--background-color);
   color: var(--color-white);
-  width: 750px;
-  height: 350px;
+  width: 75vh;
+  height: 35vh;
   position: relative;
 }
 
@@ -155,8 +162,8 @@ section {
   border-radius: var(--border-radius);
   background-color: var(--background-color);
   color: var(--color-white);
-  width: 200px;
-  height: 250px;
+  width: 20vh;
+  height: 25vh;
   margin: 0 10px;
 }
 
@@ -169,21 +176,21 @@ transition: 0.5s ease all;
 content: "";
 display: block;
 position: relative;
-bottom: -30px;
+bottom: -3vh;
 text-align: center;
 }
 
 #yellowDuck:hover::after {
-font-size: 22px;
+font-size: 2.2vh;
 content: "Yellow Duck";
 }
 
 #redDuck:hover::after {
-font-size: 22px;
+font-size: 2.2vh;
 content: "Red Duck";
 }
 
 #blueDuck:hover::after {
-font-size: 22px;
+font-size: 2.2vh;
 content: "Blue Duck";
 }

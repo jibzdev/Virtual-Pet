@@ -25,8 +25,14 @@ export function createDuck(colour,fill){
     duckEye.setAttribute("cy", "70");
     duckEye.setAttribute("r", "10");
     duckEye.setAttribute("fill", "white");
-    duckEye.setAttribute("stroke", "black");
-    duckEye.setAttribute("stroke-width", "3");
+
+    const duckEyeLid = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    duckEyeLid.setAttribute("id", "theDuckEyeLid");
+    duckEyeLid.setAttribute("cx", "130");
+    duckEyeLid.setAttribute("cy", "70");
+    duckEyeLid.setAttribute("r", "13");
+    // duckEyeLid.setAttribute("style", "fill: orange; order: -1;");
+    duckEyeLid.setAttribute("fill", "black");
     
     const duckIris = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     duckIris.setAttribute("id", "theDuckIris");
@@ -60,6 +66,7 @@ export function createDuck(colour,fill){
 
     duckSvg.appendChild(duckCircle1);
     duckSvg.appendChild(duckCircle2);
+    duckSvg.appendChild(duckEyeLid);
     duckSvg.appendChild(duckEye);
     duckSvg.appendChild(duckIris);
     duckSvg.appendChild(duckLine1);
