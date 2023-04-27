@@ -2,7 +2,7 @@ let defaultPet = {
     petName: '',
     hunger: 100,
     clean: 100,
-    sleep: 100,
+    sleep: 55,
     health: 100,
     petColour: '',
 };

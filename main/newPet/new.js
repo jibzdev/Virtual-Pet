@@ -25,27 +25,27 @@ const selectedDuckColor = localStorage.getItem('duckColour');
 const mainSection = document.querySelector("#createPet");
 
 function gettingDuckName(){
-  if(selectedDuckColor === "yellowDuck"){
+  if(selectedDuckColor === "yellow"){
 
     return "Yellow Duck";
   }
-  else if (selectedDuckColor === "redDuck"){
+  else if (selectedDuckColor === "red"){
     return "Red Duck";
   }
-  else{
+  else if (selectedDuckColor === "blue"){
     return "Blue Duck";
   }
 }
 
 function gettingDuckSVG(theDiv){
-  if(selectedDuckColor === "yellowDuck"){
-    document.querySelector(theDiv).append(svg.createDuck("yellowDuck","yellow"));
+  if(selectedDuckColor === "yellow"){
+    document.querySelector(theDiv).append(svg.createDuck("yellow"));
   }
-  else if (selectedDuckColor === "redDuck"){
-    document.querySelector(theDiv).append(svg.createDuck("redDuck","red"));
+  else if (selectedDuckColor === "red"){
+    document.querySelector(theDiv).append(svg.createDuck("red"));
   }
   else{
-    document.querySelector(theDiv).append(svg.createDuck("blueDuck","blue"));
+    document.querySelector(theDiv).append(svg.createDuck("blue"));
   }
 };
 
@@ -56,7 +56,7 @@ function NameThePet() {
     pet.setColour(selectedDuckColor);
     document.querySelector("#name").textContent = "Name: " + pet.getName();
     document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
-    document.querySelector("#petHealth").textContent = "Health: " + "%" + pet.getHealth();
+    document.querySelector("#petHealthBar").value = pet.getHealth();
     document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
     document.querySelector("#petColour").textContent = "Pet Colour: " + pet.getColour();
 };
@@ -129,14 +129,15 @@ function decreaseSleep() {
   decreasing = setInterval(decreaseSleepValue, 7000);
 
   let sleepButton = document.querySelector("#giveSleep");
-
   sleepButton.addEventListener("click", () => {
     if (increaseSleep) {
       clearInterval(increaseSleep);
       increaseSleep = null;
       decreasing = setInterval(decreaseSleepValue, 7000);
       sleepButton.textContent = "Sleep";
+      svg.changeSvgToDefault();
     } else {
+      svg.changeSvgToSLeep();
       clearInterval(decreasing);
       statusText.textContent = "Sleeping";
       statusText.style.color = "black";
@@ -148,13 +149,15 @@ function decreaseSleep() {
         if (sleep >= 100) {
           clearInterval(increaseSleep);
           increaseSleep = null;
-          decreasing = setInterval(decreaseSleepValue, 500);
+          decreasing = setInterval(decreaseSleepValue, 7000);
           sleepButton.textContent = "Sleep";
+          svg.changeSvgToDefault();
         }
-      }, 7000);
+      }, 1000);
     }
   });
 }
+
 
 function decreaseClean(){
   let clean = pet.getClean();
@@ -174,7 +177,6 @@ function decHealth() {
     if (hunger <= 10) {
       health--;
       pet.setHealth(health);
-      document.querySelector("#petHealth").textContent = "Health: " + pet.getHealth();
       document.querySelector("#petHealthBar").value = pet.getHealth();
     }
     if(health == 0){
@@ -195,7 +197,6 @@ function decHealth() {
       else{
         health++;
         pet.setHealth(health);
-        document.querySelector("#petHealth").textContent = "Health: " + pet.getHealth();
         document.querySelector("#petHealthBar").value = pet.getHealth();
       }
     }

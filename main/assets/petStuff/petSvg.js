@@ -1,79 +1,101 @@
-export function createDuck(colour,fill){
-    const duck = document.createElement("div");
+const selectedDuckColor = localStorage.getItem('duckColour');
+
+
+// Functions used to choose the duck
+export function createDuck(colour) {
+    let duck;
+  
+    if (colour === "red") {
+      duck = document.createElement("iframe");
+      duck.setAttribute("src", "../assets/petStuff/duckSvg/red/defaultRed.svg");
+    } else if (colour === "yellow") {
+      duck = document.createElement("iframe");
+      duck.setAttribute("src", "../assets/petStuff/duckSvg/yellow/defaultYellow.svg");
+    } else if (colour === "blue") {
+      duck = document.createElement("iframe");
+      duck.setAttribute("src", "../assets/petStuff/duckSvg/blue/defaultBlue.svg");
+    }
     duck.setAttribute("id", colour);
-    
-    const duckSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    duckSvg.setAttribute("width", "200");
-    duckSvg.setAttribute("height", "250");
-    duckSvg.setAttribute("id", "theDuck");
-    
-    const duckCircle1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    duckCircle1.setAttribute("cx", "100");
-    duckCircle1.setAttribute("cy", "125");
-    duckCircle1.setAttribute("r", "50");
-    duckCircle1.setAttribute("fill", fill);
-    
-    const duckCircle2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    duckCircle2.setAttribute("cx", "110");
-    duckCircle2.setAttribute("cy", "80");
-    duckCircle2.setAttribute("r", "40");
-    duckCircle2.setAttribute("fill", fill);
-    
-    const duckEye = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    duckEye.setAttribute("id", "theDuckEye");
-    duckEye.setAttribute("cx", "130");
-    duckEye.setAttribute("cy", "70");
-    duckEye.setAttribute("r", "10");
-    duckEye.setAttribute("fill", "white");
+    duck.style.border = "none";
+    return duck;
+  }
 
-    const duckEyeLid = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    duckEyeLid.setAttribute("id", "theDuckEyeLid");
-    duckEyeLid.setAttribute("cx", "130");
-    duckEyeLid.setAttribute("cy", "70");
-    duckEyeLid.setAttribute("r", "13");
-    // duckEyeLid.setAttribute("style", "fill: orange; order: -1;");
-    duckEyeLid.setAttribute("fill", "black");
-    
-    const duckIris = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    duckIris.setAttribute("id", "theDuckIris");
-    duckIris.setAttribute("cx", "130");
-    duckIris.setAttribute("cy", "70");
-    duckIris.setAttribute("r", "3");
-    duckIris.setAttribute("fill", "black");
-    duckIris.setAttribute("stroke", "black");
-    duckIris.setAttribute("stroke-width", "3");
-    
-    const duckLine1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    duckLine1.setAttribute("x1", "100");
-    duckLine1.setAttribute("y1", "175");
-    duckLine1.setAttribute("x2", "100");
-    duckLine1.setAttribute("y2", "200");
-    duckLine1.setAttribute("stroke", "black");
-    duckLine1.setAttribute("stroke-width", "4");
-    
-    const duckLine2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    duckLine2.setAttribute("x1", "100");
-    duckLine2.setAttribute("y1", "200");
-    duckLine2.setAttribute("x2", "125");
-    duckLine2.setAttribute("y2", "200");
-    duckLine2.setAttribute("stroke", "black");
-    duckLine2.setAttribute("stroke-width", "4");
+export function jump(colour) {
+    const duck = document.querySelector(`#${colour}`);
 
-    const duckTriangle = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-    duckTriangle.setAttribute("points", "15 5, 25 25, 5 25");
-    duckTriangle.setAttribute("style", "fill: orange; order: -1;");
-    duckTriangle.setAttribute("transform", "translate(170,55) rotate(90)");
-
-    duckSvg.appendChild(duckCircle1);
-    duckSvg.appendChild(duckCircle2);
-    duckSvg.appendChild(duckEyeLid);
-    duckSvg.appendChild(duckEye);
-    duckSvg.appendChild(duckIris);
-    duckSvg.appendChild(duckLine1);
-    duckSvg.appendChild(duckLine2);
-    duckSvg.appendChild(duckTriangle);
-    
-    duck.appendChild(duckSvg);
-
+    if (colour === "red") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/red/jump.svg");
+    } else if (colour === "yellow") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/yellow/jump.svg");
+    } else if (colour === "blue") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/blue/jump.svg");
+    }
     return duck;
 }
+
+export function reset(colour) {
+    const duck = document.querySelector(`#${colour}`);
+    if (colour === "red") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/red/defaultRed.svg");
+    } else if (colour === "yellow") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/yellow/defaultYellow.svg");
+    } else if (colour === "blue") {
+        duck.setAttribute("src", "../assets/petStuff/duckSvg/blue/defaultBlue.svg");
+    }
+}
+
+
+// Functions used when playing the game playing Game
+
+export function sleeping(colour) {
+    let duck = document.getElementById(colour);
+  
+    if (colour === "red") {
+        duck = "../assets/petStuff/duckSvg/red/sleeping.svg";
+    } else if (colour === "yellow") {
+        duck = "../assets/petStuff/duckSvg/yellow/sleeping.svg";
+    } else if (colour === "blue") {
+      duck = "../assets/petStuff/duckSvg/blue/sleeping.svg";
+    }
+    return duck;
+}
+
+  export function reset2(colour) {
+    let duck = document.getElementById(colour);
+  
+    if (colour === "red") {
+        duck = "../assets/petStuff/duckSvg/red/defaultRed.svg";
+    } else if (colour === "yellow") {
+        duck = "../assets/petStuff/duckSvg/yellow/defaultYellow.svg";
+    } else if (colour === "blue") {
+      duck = "../assets/petStuff/duckSvg/blue/defaultBlue.svg";
+    }
+    return duck;
+}
+
+export function changeSvgToSLeep(){
+    let frame1 = document.querySelector("#duck2");
+    let frame = document.createElement("iframe");
+    frame.setAttribute("src",sleeping(selectedDuckColor));
+    frame.setAttribute("id",selectedDuckColor);
+    frame.setAttribute("style","border: none;")
+    let firstChild = frame1.firstChild;
+    if (firstChild) {
+      frame1.removeChild(firstChild);
+    }
+    frame1.append(frame);
+}
+
+export function changeSvgToDefault(){
+    let frame1 = document.querySelector("#duck2");
+    let frame = document.createElement("iframe");
+    frame.setAttribute("src",reset2(selectedDuckColor));
+    frame.setAttribute("id",selectedDuckColor);
+    frame.setAttribute("style","border: none;")
+    let firstChild = frame1.firstChild;
+    if (firstChild) {
+      frame1.removeChild(firstChild);
+    }
+    frame1.append(frame);
+}
+  

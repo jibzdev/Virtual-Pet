@@ -114,18 +114,32 @@ function showChooseSection() {
 
   choose.setAttribute("id", "choose");
   choose.innerHTML = `<h2>Choose a Duck!</h2>`;
-  choose.append(svg.createDuck("yellowDuck","yellow"));
-  choose.append(svg.createDuck("redDuck","red"));
-  choose.append(svg.createDuck("blueDuck","blue"));
+  choose.append(svg.createDuck("yellow"));
+  choose.append(svg.createDuck("red"));
+  choose.append(svg.createDuck("blue"));
 
-  const ducks = choose.querySelectorAll('div');
+  const ducks = choose.querySelectorAll("section iframe");
+
   ducks.forEach((duck) => {
-    duck.setAttribute("class", "ducks");
-    duck.addEventListener('click', () => {
-    localStorage.setItem('duckColour', duck.id);
-    console.log(localStorage.getItem("duckColour"));
-    window.location.href = '/newPet/new.html';
-  })});
+    const container = document.createElement("div");
+    container.classList.add("duck-container");
+    container.appendChild(duck);
+    const button = document.createElement("button");
+    button.textContent = `Select`;
+    button.addEventListener("click", () => {
+      localStorage.setItem("duckColour", duck.id);
+      window.location.href = "/newPet/new.html";
+    });
+  
+    container.appendChild(button);
+    choose.appendChild(container);
+    container.addEventListener("mouseover", () => {
+      svg.jump(duck.id);
+    });
+    container.addEventListener("mouseout", () => {
+      svg.reset(duck.id);
+    });
+  });
   
   section.innerHTML = "";
   section.appendChild(choose);
@@ -138,10 +152,4 @@ function showChooseSection() {
   window.location.href = "/newPet/new.html";
 });
 });
-
-  divs.forEach((button) => {
-    button.addEventListener("hover", () => {
-    window.location.href = "/newPet/new.html";
-  });
-  });
 };

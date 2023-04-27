@@ -66,17 +66,33 @@ video
   filter: blur(5px);
 }
 
-#stats{
+#stats {
   text-align: center;
   color: white;
   position: absolute;
   left: 5%;
   top: 50%;
   transform: translate(-5%, -50%);
-  width: 30vh;
+  width: 20vh;
+  height: auto;
   padding: 2vh;
   border-radius: 0.5vh;
   background-color: rgba(1, 1, 1, 0.7);
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+
+@media (max-width: 768px) {
+  #stats {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    transform: translate(-50%, -90%);
+  }
+}
+
+#stats meter{
+  width: 10vh;
 }
 
 #stats2{
@@ -92,9 +108,13 @@ video
   background-color: rgba(1, 1, 1, 0.7); 
 }
 
-
-#stats p{
-  text-align: left;
+@media (max-width: 768px) {
+  #stats2 {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, -5%);
+  }
 }
 
 #theGame{
@@ -107,11 +127,31 @@ video
   background-color: rgba(1, 1, 1, 0.7);
 }
 
+@media (max-width: 768px) {
+  #theGame {
+    position: absolute;
+    left: 50%;
+    top: 32.5%;
+    transform: translate(-50%, -32.5%);
+  }
+}
+
 #theGame p{
   color: white;
   text-align: center;
 }
-  
+
+#theGame iframe{
+  width: 25vh;
+  height: 25vh;
+  cursor: pointer;
+}
+#duck2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 #createPet {
   color: white;
   text-align: center;
@@ -122,6 +162,12 @@ video
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#createPet iframe{
+  width: 25vh;
+  height: 25vh;
+  cursor: pointer;
 }
 
 button {
@@ -165,4 +211,19 @@ button {
   left: 85%;
   top: 50%;
   transform: translate(-85%,-50%);
+}
+
+@media (max-width: 768px) {
+  #buttons {
+    position: absolute;
+    left: 90%;
+    top: 50%;
+    transform: translate(-90%, -50%);
+  }
+}
+
+#buttons button {
+  display: block;
+  width: 7.5vh;
+  margin-bottom: 10px; /* Set a margin between the buttons */
 }
