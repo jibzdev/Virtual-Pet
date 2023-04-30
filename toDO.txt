@@ -1,0 +1,11 @@
+
+- clean doesnt decrease at the start
+- fix clean interval as its decreasing make sure to check if it hits bellow 50 to change the svg
+
+- fix so when your showering you cant click sleep, and vise versa
+
+- decrease Happiness
+
+- fix help page
+
+- fix load page

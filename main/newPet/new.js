@@ -83,7 +83,13 @@ function decHunger() {
       document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
       document.querySelector("#petHunger").value = pet.getHunger();
     }
-    console.log(pet.getName(),pet.getHealth(),pet.getHunger(),pet.getClean(),pet.getSleep());
+    console.log(`
+  Name: ${pet.getName()}
+  Health: ${pet.getHealth()}
+  Hunger: ${pet.getHunger()}
+  Cleanliness: ${pet.getClean()}
+  Sleep: ${pet.getSleep()}
+`);
   }, 3000);
 };
 
@@ -129,18 +135,36 @@ function decreaseSleep() {
   decreasing = setInterval(decreaseSleepValue, 7000);
 
   let sleepButton = document.querySelector("#giveSleep");
+  
+  function updateSvg() {
+    if(pet.getClean() <= 50) {
+      if(increaseSleep) {
+        svg.changeSvgToDirtySleep(selectedDuckColor);
+      } else {
+        svg.changeSvgToDirty(selectedDuckColor);
+      }
+    } else {
+      svg.changeSvgToDefault(selectedDuckColor);
+    }
+  }
+
   sleepButton.addEventListener("click", () => {
     if (increaseSleep) {
       clearInterval(increaseSleep);
       increaseSleep = null;
       decreasing = setInterval(decreaseSleepValue, 7000);
       sleepButton.textContent = "Sleep";
-      svg.changeSvgToDefault();
+      updateSvg();
     } else {
-      svg.changeSvgToSLeep();
       clearInterval(decreasing);
+      notify("Sleepy Time 😴", "sleep");
       statusText.textContent = "Sleeping";
       statusText.style.color = "black";
+      if(pet.getClean() <= 50) {
+        svg.changeSvgToDirtySleep(selectedDuckColor);
+      } else {
+        svg.changeSvgToSleep(selectedDuckColor);
+      }
       sleepButton.textContent = "Sleeping...";
       increaseSleep = setInterval(() => {
         let sleep = pet.getSleep();
@@ -151,24 +175,67 @@ function decreaseSleep() {
           increaseSleep = null;
           decreasing = setInterval(decreaseSleepValue, 7000);
           sleepButton.textContent = "Sleep";
-          svg.changeSvgToDefault();
+          updateSvg();
         }
       }, 1000);
     }
   });
-}
+};
 
 
-function decreaseClean(){
+function decreaseClean() {
   let clean = pet.getClean();
-  let decreasing = setInterval(() => {
-    if (clean > 0){
+  let decreasingInterval;
+  let increasingInterval;
+  let isCleaning = false;
+
+  function decreaseCleanliness() {
+    if (clean > 0 && clean <= 100) {
       clean--;
       pet.setClean(clean);
+      document.querySelector("#petCleaner").value = pet.getClean();
+      document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
     }
-    clearInterval(decreasing);
-  }, 9000)
+  }
+
+  document.querySelector("#giveClean").addEventListener("click", () => {
+    if (isCleaning) {
+      // Stop cleaning
+      clearInterval(increasingInterval);
+      clearInterval(decreasingInterval);
+      svg.changeSvgToDefault(selectedDuckColor);
+      isCleaning = false;
+      decreasingInterval = setInterval(decreaseCleanliness, 1000); // Start decreasing
+      notify("🛁 Stopping shower...", "clean");
+    } else {
+      // Start cleaning
+      if (clean >= 100) {
+        notify("💦 Your pet is already squeaky clean!", "clean");
+        return;
+      }
+      notify("💦 Showering", "clean");
+      svg.changeSvgToShower(selectedDuckColor);
+      isCleaning = true;
+
+      clearInterval(decreasingInterval);
+      increasingInterval = setInterval(() => {
+        if (clean >= 100) {
+          notify("💦 Your pet is already squeaky clean!", "clean");
+          clearInterval(increasingInterval);
+          svg.changeSvgToDefault(selectedDuckColor);
+          isCleaning = false;
+          decreasingInterval = setInterval(decreaseCleanliness, 1000); // Start decreasing
+        } else {
+          clean++;
+          pet.setClean(clean);
+          document.querySelector("#petCleaner").value = pet.getClean();
+          document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+        }
+      }, 500);
+    }
+  });
 }
+
 // Decreasing Health
 function decHealth() {
   let decreaseH = setInterval(() => {
@@ -204,6 +271,84 @@ function decHealth() {
 };
 
 
+function notify(msg, what) {
+  const notificationContainer = document.querySelector("#notification-container");
+  const notifications = notificationContainer.querySelectorAll(".notification");
+  
+  if (notifications.length >= 5) {
+    const oldestNotification = notifications[0];
+    oldestNotification.classList.add("hidden");
+    setTimeout(() => {
+      oldestNotification.remove();
+    }, 500);
+  }
+  
+  const visibleNotifications = notificationContainer.querySelectorAll(".notification:not(.hidden)");
+  
+  if (visibleNotifications.length > 4) {
+    for (let i = 4; i < visibleNotifications.length; i++) {
+      visibleNotifications[i].classList.add("hidden");
+    }
+  }
+
+  let set = pet[getMethodName(what)]();
+
+  if (what === "hunger" && set < 100) {
+    set += 2;
+    pet[setMethodName(what)](set);
+  }
+
+  if (what === "hunger" && set >= 100) {
+    msg = "The pet is full! 😡";
+  }
+
+  if (what === "clean") {
+  }
+
+  
+  if (what === "sleep") {
+  }
+
+  const message = msg;
+  const notification = document.createElement("div");
+  notification.classList.add("notification", "top-right");
+  notification.textContent = message;
+  notificationContainer.appendChild(notification);
+
+  setTimeout(() => {
+    notification.classList.add("hidden");
+    setTimeout(() => {
+      notification.remove();
+    }, 500);
+  }, 5000);
+};
+
+function getMethodName(what) {
+  switch (what) {
+    case "hunger":
+      return "getHunger";
+    case "clean":
+      return "getClean";
+    case "sleep":
+      return "getSleep";
+    default:
+      throw new Error(`Invalid parameter: ${what}`);
+  }
+}
+
+function setMethodName(what) {
+  switch (what) {
+    case "hunger":
+      return "setHunger";
+    case "clean":
+      return "setClean";
+    case "sleep":
+      return "setSleep";
+    default:
+      throw new Error(`Invalid parameter: ${what}`);
+  }
+}
+  
 // Save Pet Button
 async function savePet() {
   let payload = {
@@ -264,11 +409,15 @@ window.addEventListener('load', () => {
     decHealth();
     decreaseSleep();
     decreaseClean();
-  document.querySelector("#givefood").addEventListener("click", () =>{
-    let hunger = pet.getHunger();
-    hunger += 2;
-    pet.setHunger(hunger);
-  });
+    
+    document.querySelector("#givefood").addEventListener("click", () => {
+      const hunger = pet.getHunger();
+      if (hunger < 100) {
+        notify("1 🍗 was given.", "hunger");
+      } else {
+        notify("The pet is full!", "hunger");
+      }
+    });
   document.querySelector("#saveGame").addEventListener("click", () =>{
     savePet();
   });
@@ -305,7 +454,7 @@ audio.volume = storedVolume;
 volumeRange.value = storedVolume;
 audio.muted = (storedVolume == 0);
 volumeIcon.className = (storedVolume == 0) ? "fas fa-volume-off" : (storedVolume <= 0.5) ? "fas fa-volume-down" : "fas fa-volume-up";
-}
+};
 
 
 volumeRange.addEventListener("input", function() {

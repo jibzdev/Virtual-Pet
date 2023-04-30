@@ -4,6 +4,7 @@ import * as svg from './assets/petStuff/petSvg.js' ;
 // On Load
 window.addEventListener('load', () => {
   runGame();
+  helpPage();
 });
 
 
@@ -73,16 +74,21 @@ function goToHomePage() {
   const loadGameButton = document.createElement("button");
   loadGameButton.setAttribute("id", "loadGame");
   loadGameButton.textContent = "Load Game";
+
+  const helpButton = document.createElement("button");
+  helpButton.setAttribute("id", "help");
+  helpButton.textContent = "Help";
   
   section.innerHTML = "";
   section.appendChild(headerr);
   section.appendChild(versions);
   section.appendChild(newGameButton);
   section.appendChild(loadGameButton);
+  section.appendChild(helpButton);
   
   newGameButton.addEventListener("click", showChooseSection);
+  helpButton.addEventListener("click", helpPage);
   loadGameButton.addEventListener("click", goToLoadPets);
-
   setupButtonEventListeners();
 }
 
@@ -153,3 +159,9 @@ function showChooseSection() {
 });
 });
 };
+
+function helpPage(){
+  document.querySelector("#help").addEventListener("click", () => {
+  window.location.href = "help.html";
+});
+}

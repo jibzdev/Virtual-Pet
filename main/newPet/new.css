@@ -227,3 +227,29 @@ button {
   width: 7.5vh;
   margin-bottom: 10px; /* Set a margin between the buttons */
 }
+
+#notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.notification {
+  background-color: rgba(1, 1, 1, 0.7);
+  color: white;
+  padding: 1vh;
+  margin-bottom: 1vh;
+  transition: opacity 0.5s, transform 0.5s;
+  opacity: 1;
+  transform: translateY(0);
+  font-size: 1.6vh;
+  line-height: 1.5;
+  max-width: 30vh;
+  border-radius: 5px;
+}
+
+.notification.hidden {
+  opacity: 0;
+  transform: translateY(-50px);
+}
