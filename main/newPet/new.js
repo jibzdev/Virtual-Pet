@@ -183,58 +183,57 @@ function decreaseSleep() {
 };
 
 
-function decreaseClean() {
+// Decrease Clean
+
+function decreaseCleanValue() {
   let clean = pet.getClean();
-  let decreasingInterval;
-  let increasingInterval;
-  let isCleaning = false;
 
-  function decreaseCleanliness() {
-    if (clean > 0 && clean <= 100) {
-      clean--;
-      pet.setClean(clean);
-      document.querySelector("#petCleaner").value = pet.getClean();
-      document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
-    }
+  if (clean > 0) {
+    clean--;
+    pet.setClean(clean);
+    document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+    document.querySelector("#petCleaner").value = pet.getClean();
   }
+}
 
-  document.querySelector("#giveClean").addEventListener("click", () => {
-    if (isCleaning) {
-      // Stop cleaning
-      clearInterval(increasingInterval);
-      clearInterval(decreasingInterval);
+let increaseClean;
+
+function decreaseClean() {
+  decreasing = setInterval(decreaseCleanValue, 1000);
+
+  let cleanButton = document.querySelector("#giveClean");
+
+  cleanButton.addEventListener("click", () => {
+    if (increaseClean) {
+      clearInterval(increaseClean);
+      increaseClean = null;
+      decreasing = setInterval(decreaseCleanValue, 1000);
+      cleanButton.textContent = "Clean";
       svg.changeSvgToDefault(selectedDuckColor);
-      isCleaning = false;
-      decreasingInterval = setInterval(decreaseCleanliness, 1000); // Start decreasing
-      notify("🛁 Stopping shower...", "clean");
     } else {
-      // Start cleaning
-      if (clean >= 100) {
-        notify("💦 Your pet is already squeaky clean!", "clean");
-        return;
-      }
-      notify("💦 Showering", "clean");
+      clearInterval(decreasing);
+      notify("Shower Time 💦", "clean");
       svg.changeSvgToShower(selectedDuckColor);
-      isCleaning = true;
-
-      clearInterval(decreasingInterval);
-      increasingInterval = setInterval(() => {
+      cleanButton.textContent = "Showering...";
+      increaseClean = setInterval(() => {
+        document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+        document.querySelector("#petCleaner").value = pet.getClean();
+        let clean = pet.getClean();
+        clean++;
+        pet.setClean(clean);
         if (clean >= 100) {
-          notify("💦 Your pet is already squeaky clean!", "clean");
-          clearInterval(increasingInterval);
+          notify("Your Pet Is Fully Clean! 💦", "clean");
+          clearInterval(increaseClean);
+          increaseClean = null;
+          decreasing = setInterval(decreaseCleanValue, 1000);
+          cleanButton.textContent = "Clean";
           svg.changeSvgToDefault(selectedDuckColor);
-          isCleaning = false;
-          decreasingInterval = setInterval(decreaseCleanliness, 1000); // Start decreasing
-        } else {
-          clean++;
-          pet.setClean(clean);
-          document.querySelector("#petCleaner").value = pet.getClean();
-          document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
         }
       }, 500);
     }
   });
-}
+};
+
 
 // Decreasing Health
 function decHealth() {
