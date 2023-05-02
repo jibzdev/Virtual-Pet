@@ -64,6 +64,7 @@ function NameThePet() {
 // decreasing Hunger
 function decHunger() {
   let decreaseHungerTime = setInterval(() => {
+    console.log(activity);
     let hunger = pet.getHunger();
     if (hunger === 0) {
         const existingWarn = document.querySelector("#warn");
@@ -93,11 +94,14 @@ function decHunger() {
   }, 3000);
 };
 
-// Decrease Sleep
-
+let activity = "default";
 let decreasing;
 let increaseSleep;
+let svgState;
+let increaseClean;
+let decrease2;
 
+// Decrease Sleep
 function updateStatusText(sleep, statusText) {
   if (sleep >= 80) {
     statusText.textContent = "Awake";
@@ -149,35 +153,52 @@ function decreaseSleep() {
   }
 
   sleepButton.addEventListener("click", () => {
-    if (increaseSleep) {
+    if (activity === "default"){
+      if (increaseSleep) {
+        clearInterval(increaseSleep);
+        increaseSleep = null;
+        decreasing = setInterval(decreaseSleepValue, 7000);
+        sleepButton.textContent = "Sleep";
+        updateSvg();
+        activity = "default";
+      } else {
+        activity = "sleeping";
+        clearInterval(decreasing);
+        notify("Sleepy Time 😴", "sleep");
+        statusText.textContent = "Sleeping";
+        statusText.style.color = "black";
+        if(pet.getClean() <= 50) {
+          svg.changeSvgToDirtySleep(selectedDuckColor);
+        } else {
+          svg.changeSvgToSleep(selectedDuckColor);
+        }
+        sleepButton.textContent = "Sleeping...";
+        increaseSleep = setInterval(() => {
+          let sleep = pet.getSleep();
+          sleep++;
+          pet.setSleep(sleep);
+          if (sleep >= 100) {
+            notify("Pet is fully awake!","sleep");
+            clearInterval(increaseSleep);
+            increaseSleep = null;
+            decreasing = setInterval(decreaseSleepValue, 7000);
+            sleepButton.textContent = "Sleep";
+            updateSvg();
+            activity = "default";
+          }
+        }, 500);
+      }
+    }
+    else if(activity === "sleeping"){
       clearInterval(increaseSleep);
       increaseSleep = null;
       decreasing = setInterval(decreaseSleepValue, 7000);
       sleepButton.textContent = "Sleep";
       updateSvg();
-    } else {
-      clearInterval(decreasing);
-      notify("Sleepy Time 😴", "sleep");
-      statusText.textContent = "Sleeping";
-      statusText.style.color = "black";
-      if(pet.getClean() <= 50) {
-        svg.changeSvgToDirtySleep(selectedDuckColor);
-      } else {
-        svg.changeSvgToSleep(selectedDuckColor);
-      }
-      sleepButton.textContent = "Sleeping...";
-      increaseSleep = setInterval(() => {
-        let sleep = pet.getSleep();
-        sleep++;
-        pet.setSleep(sleep);
-        if (sleep >= 100) {
-          clearInterval(increaseSleep);
-          increaseSleep = null;
-          decreasing = setInterval(decreaseSleepValue, 7000);
-          sleepButton.textContent = "Sleep";
-          updateSvg();
-        }
-      }, 1000);
+      activity = "default";
+    }
+    else{
+      notify("Pet is showering!","sleep")
     }
   });
 };
@@ -189,6 +210,14 @@ function decreaseCleanValue() {
   let clean = pet.getClean();
 
   if (clean > 0) {
+    if (clean <= 50 && svgState !== "dirty") {
+      svg.changeSvgToDirty(selectedDuckColor);
+      svgState = "dirty";
+    } else if (clean > 50 && svgState !== "default") {
+      svg.changeSvgToDefault(selectedDuckColor);
+      svgState = "default";
+    }
+
     clean--;
     pet.setClean(clean);
     document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
@@ -196,77 +225,95 @@ function decreaseCleanValue() {
   }
 }
 
-let increaseClean;
-
 function decreaseClean() {
-  decreasing = setInterval(decreaseCleanValue, 1000);
+  decrease2 = setInterval(decreaseCleanValue, 10000);
 
   let cleanButton = document.querySelector("#giveClean");
 
   cleanButton.addEventListener("click", () => {
-    if (increaseClean) {
+    if (activity == "default"){
+      if (increaseClean) {
+        clearInterval(increaseClean);
+        increaseClean = null;
+        decrease2 = setInterval(decreaseCleanValue, 10000);
+        cleanButton.textContent = "Clean";
+        svg.changeSvgToDefault(selectedDuckColor);
+        activity = "default";
+      } else {
+        activity = "cleaning";
+        clearInterval(decrease2);
+        notify("Shower Time 💦", "clean");
+        svg.changeSvgToShower(selectedDuckColor);
+        cleanButton.textContent = "Showering...";
+        increaseClean = setInterval(() => {
+          document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+          document.querySelector("#petCleaner").value = pet.getClean();
+          let clean = pet.getClean();
+          clean++;
+          pet.setClean(clean);
+          if (clean >= 100) {
+            activity = "default";
+            notify("Your Pet Is Fully Clean! 💦", "clean");
+            clearInterval(increaseClean);
+            increaseClean = null;
+            decrease2 = setInterval(decreaseCleanValue, 10000);
+            cleanButton.textContent = "Clean";
+            svg.changeSvgToDefault(selectedDuckColor);
+          }
+        }, 500);
+      }
+    }
+    else if(activity === "cleaning"){
       clearInterval(increaseClean);
       increaseClean = null;
-      decreasing = setInterval(decreaseCleanValue, 1000);
+      decrease2 = setInterval(decreaseCleanValue, 10000);
       cleanButton.textContent = "Clean";
       svg.changeSvgToDefault(selectedDuckColor);
-    } else {
-      clearInterval(decreasing);
-      notify("Shower Time 💦", "clean");
-      svg.changeSvgToShower(selectedDuckColor);
-      cleanButton.textContent = "Showering...";
-      increaseClean = setInterval(() => {
-        document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
-        document.querySelector("#petCleaner").value = pet.getClean();
-        let clean = pet.getClean();
-        clean++;
-        pet.setClean(clean);
-        if (clean >= 100) {
-          notify("Your Pet Is Fully Clean! 💦", "clean");
-          clearInterval(increaseClean);
-          increaseClean = null;
-          decreasing = setInterval(decreaseCleanValue, 1000);
-          cleanButton.textContent = "Clean";
-          svg.changeSvgToDefault(selectedDuckColor);
-        }
-      }, 500);
+      activity = "default";
+    }
+    else{
+      notify("Pet is sleeping","clean")
     }
   });
 };
 
 
 // Decreasing Health
-function decHealth() {
-  let decreaseH = setInterval(() => {
-    let health = pet.getHealth();
-    let hunger = pet.getHunger();
-    if (hunger <= 10) {
-      health--;
-      pet.setHealth(health);
-      document.querySelector("#petHealthBar").value = pet.getHealth();
-    }
-    if(health == 0){
-      let endGame = document.createElement('div');
-      endGame.setAttribute('id', 'endGame');
-      endGame.innerHTML = `
-      <h1>GAME OVER PET HAS DIED</h1>
-      <p>Time Survived: ${formatTime(timeSurvived)}</p>
-      `;
-      clearInterval(decreaseH);
-      document.querySelector("main").style.display = "none";
-      document.querySelector("body").appendChild(endGame);
-    }
-    if (hunger >= 75){
-      if(health === 100){
+let prevHunger = pet.getHunger();
+let prevClean = pet.getClean();
+let prevSleep = pet.getSleep();
 
-      }
-      else{
-        health++;
-        pet.setHealth(health);
-        document.querySelector("#petHealthBar").value = pet.getHealth();
-      }
-    }
-  }, 1500);
+function decHealth() {
+  let health = pet.getHealth();
+  let hunger = pet.getHunger();
+  let clean = pet.getClean();
+  let sleep = pet.getSleep();
+
+  if (hunger <= 35 && prevHunger > 35 || clean <= 50 && prevClean > 50 || sleep <= 50 && prevSleep > 50) {
+    health -= 25;
+  }
+  else if(hunger > 55 && prevHunger <= 55 || clean > 50 && prevClean <= 50 || sleep > 50 && prevSleep <= 50){
+    health += 25;
+  }
+
+  pet.setHealth(health);
+  document.querySelector("#petHealthBar").value = pet.getHealth();
+  
+  prevHunger = hunger;
+  prevClean = clean;
+  prevSleep = sleep;
+
+  if(health == 0){
+    let endGame = document.createElement('div');
+    endGame.setAttribute('id', 'endGame');
+    endGame.innerHTML = `
+    <h1>GAME OVER PET HAS DIED</h1>
+    <p>Time Survived: ${formatTime(timeSurvived)}</p>
+    `;
+    clearInterval(decreaseH);
+    document.querySelector("main").style.display = "none";
+    document.querySelector("body").appendChild(endGame);
+  }
 };
 
 
@@ -293,7 +340,7 @@ function notify(msg, what) {
   let set = pet[getMethodName(what)]();
 
   if (what === "hunger" && set < 100) {
-    set += 2;
+    set += 1;
     pet[setMethodName(what)](set);
   }
 
@@ -348,8 +395,10 @@ function setMethodName(what) {
   }
 }
   
-// Save Pet Button
+let previousPayload = null;
+
 async function savePet() {
+  notify("Pet Saved. 💾","sleep");
   let payload = {
     name: pet.getName(),
     hunger: pet.getHunger(),
@@ -360,6 +409,12 @@ async function savePet() {
   };
   console.log('Payload:', payload);
 
+  if (JSON.stringify(payload) === JSON.stringify(previousPayload)) {
+    console.log('Same data as previous save. Skipping save operation.');
+    notify("No Changes Were Made.","clean");
+    return;
+  }
+
   try {
     let response = await fetch('../pets', {
       method: 'POST',
@@ -369,6 +424,8 @@ async function savePet() {
       body: JSON.stringify(payload),
     });
     console.log(response);
+
+    previousPayload = payload;
   } catch (error) {
     console.error(error);
   }
@@ -405,16 +462,26 @@ window.addEventListener('load', () => {
     document.querySelector("#theGame").classList.remove("hidden");
     NameThePet();
     decHunger();
-    decHealth();
+    setInterval(decHealth,1000);
     decreaseSleep();
     decreaseClean();
     
     document.querySelector("#givefood").addEventListener("click", () => {
-      const hunger = pet.getHunger();
-      if (hunger < 100) {
-        notify("1 🍗 was given.", "hunger");
-      } else {
-        notify("The pet is full!", "hunger");
+      if (activity === "default"){
+        const hunger = pet.getHunger();
+        if (hunger < 100) {
+          notify("1 🍗 was given.", "hunger");
+          document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
+          document.querySelector("#petHunger").value = pet.getHunger();
+        } else {
+          notify("The pet is full!", "hunger");
+        }
+      }
+      else if(activity === "cleaning"){
+        notify("Pet is Showering!","clean");
+      }
+      else{
+        notify("Pet is Sleeping!","sleep");
       }
     });
   document.querySelector("#saveGame").addEventListener("click", () =>{
