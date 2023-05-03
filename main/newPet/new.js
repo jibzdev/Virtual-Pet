@@ -3,6 +3,7 @@ import * as svg from '../assets/petStuff/petSvg.js' ;
 
 let time = Date.now();
 let timeSurvived  = 0;
+let devTools = localStorage.getItem("devTools");
 
 setInterval(() => {
   timeSurvived = Math.floor((Date.now() - time) / 1000);
@@ -55,7 +56,7 @@ function NameThePet() {
     pet.setName(Name);
     pet.setColour(selectedDuckColor);
     document.querySelector("#name").textContent = "Name: " + pet.getName();
-    document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
+    document.querySelector("#hunger").textContent = "Hunger: " + pet.getHunger();
     document.querySelector("#petHealthBar").value = pet.getHealth();
     document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
     document.querySelector("#petColour").textContent = "Pet Colour: " + pet.getColour();
@@ -64,7 +65,6 @@ function NameThePet() {
 // decreasing Hunger
 function decHunger() {
   let decreaseHungerTime = setInterval(() => {
-    console.log(activity);
     let hunger = pet.getHunger();
     if (hunger === 0) {
         const existingWarn = document.querySelector("#warn");
@@ -72,25 +72,14 @@ function decHunger() {
           existingWarn.remove();
         }
         else{
-            const warn = document.createElement("p");
-            warn.setAttribute("id", "warn");
-            warn.textContent = "Invalid Name";
-            warn.style.color = "red";
         }
     }
     if (hunger > 0) {
       hunger--;
       pet.setHunger(hunger);
-      document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
+      document.querySelector("#hunger").textContent = "Hunger: " + pet.getHunger();
       document.querySelector("#petHunger").value = pet.getHunger();
     }
-    console.log(`
-  Name: ${pet.getName()}
-  Health: ${pet.getHealth()}
-  Hunger: ${pet.getHunger()}
-  Cleanliness: ${pet.getClean()}
-  Sleep: ${pet.getSleep()}
-`);
   }, 3000);
 };
 
@@ -290,10 +279,10 @@ function decHealth() {
   let sleep = pet.getSleep();
 
   if (hunger <= 35 && prevHunger > 35 || clean <= 50 && prevClean > 50 || sleep <= 50 && prevSleep > 50) {
-    health -= 25;
+    health -= 33;
   }
   else if(hunger > 55 && prevHunger <= 55 || clean > 50 && prevClean <= 50 || sleep > 50 && prevSleep <= 50){
-    health += 25;
+    health += 33;
   }
 
   pet.setHealth(health);
@@ -302,18 +291,6 @@ function decHealth() {
   prevHunger = hunger;
   prevClean = clean;
   prevSleep = sleep;
-
-  if(health == 0){
-    let endGame = document.createElement('div');
-    endGame.setAttribute('id', 'endGame');
-    endGame.innerHTML = `
-    <h1>GAME OVER PET HAS DIED</h1>
-    <p>Time Survived: ${formatTime(timeSurvived)}</p>
-    `;
-    clearInterval(decreaseH);
-    document.querySelector("main").style.display = "none";
-    document.querySelector("body").appendChild(endGame);
-  }
 };
 
 
@@ -398,14 +375,18 @@ function setMethodName(what) {
 let previousPayload = null;
 
 async function savePet() {
+  const id = pet.getId();
   notify("Pet Saved. 💾","sleep");
+  const currentTime = new Date().getTime();
   let payload = {
+    id: id,
     name: pet.getName(),
     hunger: pet.getHunger(),
     clean: pet.getClean(),
     sleep: pet.getSleep(),
     health: pet.getHealth(),
     colour: pet.getColour(),
+    time: currentTime
   };
   console.log('Payload:', payload);
 
@@ -438,7 +419,9 @@ window.addEventListener('load', () => {
   gettingDuckSVG("#duck1");
   const stats = document.querySelector("#stats");
   const buttons = document.querySelector("#buttons");
+  const saveGame = document.querySelector("#saveGame");
   buttons.classList.add("hidden");
+  saveGame.classList.add("hidden");
   stats.classList.add("hidden");
   document.querySelector("#stats2").classList.add("hidden");
   document.querySelector("#theGame").classList.add("hidden");
@@ -454,9 +437,55 @@ window.addEventListener('load', () => {
     warn.style.color = "red";
     document.querySelector("#createPet").insertAdjacentElement("beforeend", warn);
   } else {
+    if(devTools === "true"){
+      let devToolsArea = document.createElement("section");
+      let area = document.querySelector("#buttons");
+      let decreaseHungerButton = document.createElement("button");
+      decreaseHungerButton.setAttribute("id","decreaseHungerButton");
+      decreaseHungerButton.textContent = "Decrease Hunger 🔨";
+      let decreaseCleanButton = document.createElement("button");
+      decreaseCleanButton.setAttribute("id","decreaseCleanButton");
+      decreaseCleanButton.textContent = "Decrease Clean 🔨";
+      let decreaseSleepButton = document.createElement("button");
+      decreaseSleepButton.setAttribute("id","decreaseSleepButton");
+      decreaseSleepButton.textContent = "Decrease Sleep 🔨";
+      devToolsArea.append(decreaseHungerButton);
+      devToolsArea.append(decreaseCleanButton);
+      devToolsArea.append(decreaseSleepButton);
+      area.append(devToolsArea);
+
+      decreaseHungerButton.addEventListener("click",() =>{
+        let hunger = pet.getHunger();
+        if (hunger > 0) {
+          hunger = Math.max(hunger - 25, 0);
+          pet.setHunger(hunger);
+          document.querySelector("#hunger").textContent = "Hunger: " + pet.getHunger();
+          document.querySelector("#petHunger").value = pet.getHunger();
+        }
+      });
+      
+      decreaseCleanButton.addEventListener("click",() =>{
+        let clean = pet.getClean();
+        if (clean > 0) {
+          clean = Math.max(clean - 25, 0);
+          pet.setClean(clean);
+          document.querySelector("#clean").textContent = "Cleanliness: " + pet.getClean();
+          document.querySelector("#petCleaner").value = pet.getClean();
+        }
+      });
+      
+      decreaseSleepButton.addEventListener("click",() =>{
+        let sleep = pet.getSleep();
+        if (sleep > 0) {
+          sleep = Math.max(sleep - 25, 0);
+          pet.setSleep(sleep);
+        }
+      });
+    }
     gettingDuckSVG("#duck2");
     buttons.classList.remove("hidden");
     stats.classList.remove("hidden");
+    saveGame.classList.remove("hidden");
     document.querySelector("#stats2").classList.remove("hidden");
     mainSection.classList.add("hidden");
     document.querySelector("#theGame").classList.remove("hidden");
@@ -471,7 +500,7 @@ window.addEventListener('load', () => {
         const hunger = pet.getHunger();
         if (hunger < 100) {
           notify("1 🍗 was given.", "hunger");
-          document.querySelector("#Hunger").textContent = "Hunger: " + pet.getHunger();
+          document.querySelector("#hunger").textContent = "Hunger: " + pet.getHunger();
           document.querySelector("#petHunger").value = pet.getHunger();
         } else {
           notify("The pet is full!", "hunger");
@@ -487,6 +516,26 @@ window.addEventListener('load', () => {
   document.querySelector("#saveGame").addEventListener("click", () =>{
     savePet();
   });
+  let health = pet.getHealth();
+
+  function checkHealth() {
+    if (health <= 1) {
+      clearInterval(intervalId); // clear the interval if health is <= 1
+      let endGame = document.createElement('div');
+      endGame.setAttribute('id', 'endGame');
+      endGame.innerHTML = `
+        <h1>GAME OVER PET HAS DIED</h1>
+        <p>Time Survived: ${formatTime(timeSurvived)}</p>
+      `;
+      document.querySelector("main").style.display = "none";
+      document.querySelector("body").appendChild(endGame);
+    }
+  }
+  
+  let intervalId = setInterval(() => {
+    health = pet.getHealth();
+    checkHealth();
+  }, 500);
 }
 });
 });

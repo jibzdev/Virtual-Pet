@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS Petslol (
     clean TEXT, 
     sleep TEXT,
     color TEXT,
-    time DATETIME
+    time TEXT
 );

@@ -17,6 +17,11 @@ async function load() {
       const nameSpan = document.createElement('span');
       nameSpan.textContent = pet.petName;
       li.appendChild(nameSpan);
+
+      const dateTime = document.createElement('span');
+      const date = new Date(pet.time);
+      dateTime.textContent = date.toLocaleString();
+      li.appendChild(dateTime);
       
       const buttonContainer = document.createElement('div');
       const loadButton = document.createElement('a');

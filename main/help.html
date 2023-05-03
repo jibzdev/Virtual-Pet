@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Help</title>
+    <link rel="icon" type="image/png" href="assets/petStuff/duckSvg/red/defaultRed.svg">
+    <link rel="stylesheet" href="assets/help.css">
+    <script type="module" src="assets/help.js"></script>
 </head>
 <body>
-    help page
+    <video autoplay muted loop id="bgVideo">
+        <source src="assets/videos/bg.mp4" type="video/mp4">
+    </video>
+    <main>
+        <div id="notification-container"></div>
+        <section>
+            <h1>Welcome to Duck World!</h1>
+            <p> Begin by creating a duck, naming it, and starting to play. Your duck will have four attributes:</p>
+            <p><b>Happiness<br>Cleanliness<br>Hunger<br>Sleepyness</b></p>
+                <p>The duck's happiness will decrease and increase based on its other main attributes. <br><br>
+                    If the duck's hunger falls below 35, it will lose 33% of its happiness. <br><br>If the duck becomes tired and reaches the "sleepy" stage, it will again lose 33% of its happiness.<br><br>If the duck becomes dirty, you will see its appearance and mood change, and this will also cause its happiness to be reduced.<br><br> If these three stats fall below the thresholds, the duck will die of boredom.</p>
+                <br>
+                <p>Your duck's attributes such as sleep and cleanliness decrease every 10 seconds, and hunger is reduced every 3 seconds.</p>
+                <br><br>
+                <strong>Dev Options</strong>
+                <br>
+                <p>Enabling dev options allows you to reduce the hunger, cleanliness, and sleep status manually.</p>
+                <button>Enable</button>
+        </section>
+    </main>
 </body>
 </html>

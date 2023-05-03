@@ -5,24 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="icon" type="image/png" href="assets/petStuff/duckSvg/red/defaultRed.svg">
+    <link rel="icon" type="image/png" href="../assets/petStuff/duckSvg/red/defaultRed.svg">
+    <link rel="stylesheet" href="pet.css">
+    <script type="module" src="pet.js"></script>
 </head>
 <body>
+    <video autoplay muted loop id="bgVideo">
+        <source src="../assets/videos/bg.mp4" type="video/mp4">
+    </video>
+
+    <audio id="my-audio" autoplay loop>
+      <source src="../assets/music/playing.mp3" type="audio/mp3">
+    </audio>
+
+    <main>
+        <div id="notification-container"></div>
+        <section id="buttons">
+            <button id="givefood">Feed</button>
+            <button id="giveClean">Clean</button>
+            <button id="giveSleep">Sleep</button>
+        </section>
+        <button id="saveGame">Save Game</button>
+
+        <section id="theGame">      
+            <div id="duck2"></div>
+            <p>Happiness</p>
+            <p><meter id="petHealthBar" min="0" max="99" value="99"></meter></p>
+            <p id="emojiStatus"></p>
+        </section>
+
+        <section id="stats">
+            <p id="hunger"></p><meter id="petHunger" min="0" max="100" value="100"></meter>
+            <p id="clean"></p><meter id="petCleaner" min="0" max="100" value="100"></meter>
+            <p id="sleep"></p>
+        </section>
+
+        <section id="stats2">
+            <p id="name"></p>
+            <p id="petColour"></p> 
+        </section>
+
+        <section class="volume-slider">
+            <i class="fas fa-volume-up"></i>
+            <input type="range" min="0" max="1" step="0.01" value="1" id="volume-range">
+        </section>
+    </main>
     
 </body>
+
 </html>
-
-<!-- <script type="module">
-    const params = new URLSearchParams(document.location.search);
-    const id = params.get("ID");
-    const response = await fetch(`../pets/${id}`);
-    const petdetails = await response.json();
-
-    console.log(petdetails);
-
-    for (const detail of Object.entries(petdetails)) {
-        const li = document.createElement('li');
-        li.textContent = detail;
-        window.petdetails.append(li);
-    }
-</script> -->

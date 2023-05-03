@@ -19,28 +19,18 @@ export async function listPets() {
   return db.all('SELECT * FROM Petslol ORDER BY time DESC LIMIT 10');
 }
 
-function currentTime() {
-  return new Date().toISOString();
-}
-
-function generateId() {
-  let result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for ( let i = 0; i < 8; i++ ) {
-    const randomIndex = Math.floor(Math.random() * charactersLength);
-    result += characters.charAt(randomIndex);
-  }
-  return result;
-}
 
 export async function addPet(petData) {
   const db = await dbConn;
-  const id = generateId();
-  const time = currentTime();
   console.log("log successful");
-  return db.run('INSERT INTO Petslol (petId, petName, health, hunger, clean, sleep, color, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, petData.name, petData.health, petData.hunger, petData.clean, petData.sleep, petData.colour, time]);
+  
+  const existingPet = await db.get('SELECT * FROM Petslol WHERE petId = ?', petData.id);
+  
+  if (existingPet) {
+    await db.run('DELETE FROM Petslol WHERE petId = ?', petData.id);
+  }
 
+  return db.run('INSERT INTO Petslol (petId, petName, health, hunger, clean, sleep, color, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [petData.id, petData.name, petData.health, petData.hunger, petData.clean, petData.sleep, petData.colour, petData.time]);
 }
 
 export async function getPet(id){

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="icon" type="image/png" href="../assets/petStuff/duckSvg/red/defaultRed.svg">
     <title>Playing</title>
     <link rel="stylesheet" href="new.css">
     <script src="new.js" type="module"></script>
@@ -19,9 +19,7 @@
     <audio id="my-audio" autoplay loop>
       <source src="../assets/music/playing.mp3" type="audio/mp3">
     </audio>
-
     <main>
-
         <div id="notification-container"></div>
         <section id="createPet">
             <p>You Chose:</p>
@@ -36,18 +34,18 @@
             <button id="givefood">Feed</button>
             <button id="giveClean">Clean</button>
             <button id="giveSleep">Sleep</button>
-            <button id="saveGame">Save</button>
         </section>
+        <button id="saveGame">Save Game</button>
 
         <section id="theGame">      
             <div id="duck2"></div>
             <p>Happiness</p>
-            <p><meter id="petHealthBar" min="0" max="100" value="100"></meter></p>
+            <p><meter id="petHealthBar" min="0" max="99" value="99"></meter></p>
             <p id="emojiStatus"></p>
         </section>
 
         <section id="stats">
-            <p id="Hunger"></p><meter id="petHunger" min="0" max="100" value="100"></meter>
+            <p id="hunger"></p><meter id="petHunger" min="0" max="100" value="100"></meter>
             <p id="clean"></p><meter id="petCleaner" min="0" max="100" value="100"></meter>
             <p id="sleep"></p>
         </section>
