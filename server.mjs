@@ -16,9 +16,9 @@ async function getPet(req, res) {
   res.send(pets);
 }
 
-async function postPet(req, res) {
-  let data = req.body;
-  console.log('Received pet data:', data);
+async function postPet(req) {
+  const data = req.body;
+  await console.log('Received pet data:', data);
   safe.addPet(data);
 }
 
@@ -34,5 +34,3 @@ app.post('/pets', postPet);
 app.get('/pets/:id', asyncWrap(getPet));
 
 app.listen(8080);
-
-
