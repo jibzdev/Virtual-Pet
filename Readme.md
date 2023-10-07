@@ -5,7 +5,7 @@ npm install
 npm start
 ```
 
-Virtual Pet UP2115783
+Virtual Pet
 
 
 (For staff i reccommend enabling dev tools in the bottom of the help page which allows you to manually decrease the stats.)
@@ -30,5 +30,3 @@ if all stats fall bellow those levels happiness reaches 0 and the pet dies.
 You can save the game at any time and load it back up.
 
 The time of survival is displayed when the duck is dead and also it shows when you last saved.
-
-Have Fun!
